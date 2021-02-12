@@ -1,0 +1,34 @@
+{
+  "name": "multicraft_discord_console_bot",
+  "version": "0.0.1",
+  "description": "discord bot for interacting with console on your minecraft server using multicraft api and discord.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azan-Shah/multicraft_discord_console_bot.git"
+  },
+  "keywords": [
+    "discord",
+    "discordbot",
+    "discord.js",
+    "multicraft",
+    "minecraft",
+    "server",
+    "monitor",
+    "bot"
+  ],
+  "author": "Azan-Shah",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Azan-Shah/multicraft_discord_console_bot/issues"
+  },
+  "homepage": "https://github.com/Azan-Shah/multicraft_discord_console_bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "multicraft": "^1.0.17"
+  }
+}
