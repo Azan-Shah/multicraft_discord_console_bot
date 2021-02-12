@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 const { resolve } = require('path');
 const fs = require('fs');
 const client = new Discord.Client();
-const { prefix, serverid, token, url, user, key } = require('./config.json');
+const { prefix, serverid, token, url, user, key, owner, status } = require('./config.js');
+
 
 //for multicraft api call
 const api = require("multicraft").begin({
@@ -26,57 +27,67 @@ for (const file of commandFiles) {
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity(status.name, { type: status.type});
 });
 
 client.on('message', async message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === 'dm') return;
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const command = args.shift().toLowerCase();
 
     if (command === 'ping') {
-        client.commands.get('ping').execute(message, args);
-        
+        client.commands.get('ping').execute(message, args);  
     };
-
-    if (command === 'test') {
-        client.commands.get('test').execute(client, message, args, api);
+    if (command === 'help') {
+        client.commands.get('help').execute(message, args);  
     };
-    
-    if (command === 'info') {
-        if (!args.length) {
-            return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-        }
-        var gamemode = 'c';
-        for (gamemode in args)
+    if (command === 'start') {
+        if (message.member.roles.cache.some(role => role.id === '745968623570518041'))
         {
-            console.log("true");
-            message.channel.send(`reeeeee`);
-            break
+        client.commands.get('start').execute(client, message, args, api);
         }
-        message.channel.send(`Command name: ${command}\nArguments: ${args}`);
+        else
+        {
+            message.channel.send("Sorry You Don't Have The Permission To Use This Command");
+        };
     };
-
-    if (command === 'gamemode') {
-        client.commands.get('gamemode').execute(client, message, args, api);
+    if (command === 'restart') {
+        if (message.member.roles.cache.some(role => role.id === '745968623570518041'))
+        {
+        client.commands.get('restart').execute(client, message, args, api);
+        }
+        else
+        {
+            message.channel.send("Sorry You Don't Have The Permission To Use This Command");
+        };
     };
-
-    if (command === 's') {
-        client.commands.get('s').execute(client, message, args, api);
+    if (command === 'shutdown') {
+        if (message.member.roles.cache.some(role => role.id === '745968623570518041'))
+        {
+        client.commands.get('shutdown').execute(client, message, args, api);
+        }
+        else
+        {
+            message.channel.send("Sorry You Don't Have The Permission To Use This Command");
+        };
     };
-
-    if (command === 'mc') {
-        client.commands.get('mc').execute(client, message, args, api);
+    if (command === 'test') {
+        if (message.member.roles.cache.some(role => role.id === '745968623570518041'))
+        {
+        client.commands.get('test').execute(client, message, args, api);
+        }
+        else
+        {
+            message.channel.send("Sorry You Don't Have The Permission To Use This Command");
+        };
     };
-
-    if (command === 'weather') {
-        client.commands.get('weather').execute(client, message, args, api);
-    };
-
-    if (command === 'exit') {
+    if (command === 'exit' && message.author.id === owner.id) {
         client.commands.get('exit').execute(message);
     };
 });
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 client.login(token);
+
+// impelent ban command with sql support? with monitor?
